@@ -32,7 +32,7 @@ export default {
           {
             title: "GitHub repo",
             value:
-              "https://github.com/jonohewitt/sanity-gatsby-blog",
+              "https://github.com/jonohewitt/christine-lawes",
             category: "Code",
           },
           {
