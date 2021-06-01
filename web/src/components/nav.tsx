@@ -7,22 +7,6 @@ const NavContainer = styled.nav`
   display: flex;
   justify-content: center;
 `
-
-// const NavWrapper = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   width: 100%;
-//   max-width: 800px;
-//   margin: 30px max(30px, 5%);
-//   @media (min-width: 1150px) {
-//     max-width: 90%;
-//   }
-//   a {
-//     text-decoration: none;
-//     color: inherit;
-//   }
-// `
-
 const NavHeader = styled(Link)`
   text-align: center;
 `
@@ -36,7 +20,6 @@ const Subheading = styled.p`
   font-style: italic;
   font-weight: 400;
 `
-
 const NavOptions = styled.div`
   position: relative;
   top: -13px;
@@ -52,7 +35,6 @@ const NavOptions = styled.div`
     right: 0;
   }
 `
-
 const InternalLinks = styled.ul`
   display: flex;
   width: 100%;
@@ -69,21 +51,18 @@ const InternalLinks = styled.ul`
     }
   }
 `
-
 const Instagram = styled.a`
-padding: 20px 0 20px 20px;
+  padding: 20px 0 20px 20px;
   transition: transform 0.3s;
   :hover {
     transform: scale(1.2);
   }
 `
-
 const VerticalLine = styled.hr`
   width: 2px;
   height: 35px;
   margin: 0 0 0 20px;
 `
-
 const NavWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -183,6 +162,7 @@ export const Nav = () => {
                 title="Visit Christine's Instagram account"
                 href={site.instagramLink}
                 target="_blank"
+                rel="noopener"
               >
                 {instaLogo}
               </Instagram>
