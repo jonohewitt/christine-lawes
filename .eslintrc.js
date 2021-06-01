@@ -13,12 +13,17 @@ module.exports = {
   },
   rules: {
     "react/prop-types": "off",
+    "react/no-unescaped-entities": [
+      2,
+      {
+        forbid: [">", "}"],
+      },
+    ],
   },
   extends: [
     "eslint:recommended",
     "plugin:import/errors",
     "plugin:react/recommended",
-    "plugin:prettier/recommended",
   ],
   settings: {
     react: {
@@ -26,4 +31,4 @@ module.exports = {
       version: "detect",
     },
   },
-};
+}

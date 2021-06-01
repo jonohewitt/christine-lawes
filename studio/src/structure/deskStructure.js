@@ -1,15 +1,20 @@
-import S from "@sanity/desk-tool/structure-builder";
-import { MdSettings } from "react-icons/md";
-import { MdPerson, MdDescription, MdLocalOffer } from "react-icons/md";
-import IframePreview from "../previews/IframePreview";
+import S from "@sanity/desk-tool/structure-builder"
+import {
+  MdHome,
+  MdInfo,
+  MdDescription,
+  MdMenu,
+  MdBorderColor,
+} from "react-icons/md"
+import IframePreview from "../previews/IframePreview"
 
 // Web preview configuration
-const remoteURL = "https://sanity-gatsby-blog-web-m42jfw7a.netlify.app";
-const localURL = "http://localhost:8000";
+const remoteURL = "https://sanity-gatsby-blog-web-m42jfw7a.netlify.app"
+const localURL = "http://localhost:8000"
 const previewURL =
-  window.location.hostname === "localhost" ? localURL : remoteURL;
+  window.location.hostname === "localhost" ? localURL : remoteURL
 
-export const getDefaultDocumentNode = (props) => {
+export const getDefaultDocumentNode = ({ schemaType }) => {
   /**
    * Here you can define fallback views for document types without
    * a structure definition for the document node. If you want different
@@ -17,18 +22,15 @@ export const getDefaultDocumentNode = (props) => {
    * you can set up that logic in here too.
    * https://www.sanity.io/docs/structure-builder-reference#getdefaultdocumentnode-97e44ce262c9
    */
-  const { schemaType } = props;
-  if (schemaType == "post") {
-    return S.document().views([
-      S.view.form(),
-      S.view
-        .component(IframePreview)
-        .title("Web preview")
-        .options({ previewURL }),
-    ]);
-  }
-  return S.document().views([S.view.form()]);
-};
+
+  return S.document().views([
+    S.view.form(),
+    S.view
+      .component(IframePreview)
+      .title("Web Preview")
+      .options({ previewURL }),
+  ])
+}
 
 /**
  * This defines how documents are grouped and listed out in the Studio.
@@ -44,8 +46,8 @@ export default () =>
     .title("Content")
     .items([
       S.listItem()
-        .title("Settings")
-        .icon(MdSettings)
+        .title("General")
+        .icon(MdHome)
         .child(
           S.editor()
             .id("siteSettings")
@@ -54,27 +56,49 @@ export default () =>
         ),
       S.divider(),
       S.listItem()
-        .title("Blog posts")
+        .title("About")
+        .icon(MdInfo)
+        .child(S.editor().id("about").schemaType("about").documentId("about")),
+      S.listItem()
+        .title("Artworks")
+        .icon(MdBorderColor)
+        .schemaType("artwork")
+        .child(S.documentTypeList("artwork").title("Artworks")),
+      S.listItem()
+        .title("Portfolio Selection")
+        .icon(MdMenu)
+        .child(
+          S.editor()
+            .id("portfolio")
+            .schemaType("portfolio")
+            .documentId("portfolio")
+        ),
+      S.listItem()
+        .title("Blog Posts")
         .icon(MdDescription)
         .schemaType("post")
-        .child(S.documentTypeList("post").title("Blog posts")),
-      S.listItem()
-        .title("Authors")
-        .icon(MdPerson)
-        .schemaType("author")
-        .child(S.documentTypeList("author").title("Authors")),
-      S.listItem()
-        .title("Categories")
-        .icon(MdLocalOffer)
-        .schemaType("category")
-        .child(S.documentTypeList("category").title("Categories")),
+        .child(S.documentTypeList("post").title("Blog Posts")),
+
+      // S.listItem()
+      //   .title("Categories")
+      //   .icon(MdLocalOffer)
+      //   .schemaType("category")
+      //   .child(S.documentTypeList("category").title("Categories")),
+
       // `S.documentTypeListItems()` returns an array of all the document types
       // defined in schema.js. We filter out those that we have
       // defined the structure above.
+      
       ...S.documentTypeListItems().filter(
         (listItem) =>
-          !["category", "author", "post", "siteSettings"].includes(
-            listItem.getId()
-          )
+          ![
+            "about",
+            "category",
+            "author",
+            "artwork",
+            "post",
+            "siteSettings",
+            "portfolio",
+          ].includes(listItem.getId())
       ),
-    ]);
+    ])

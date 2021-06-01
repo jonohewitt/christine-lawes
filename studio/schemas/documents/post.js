@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format } from "date-fns"
 
 export default {
   name: "post",
@@ -39,16 +39,6 @@ export default {
       title: "Excerpt",
       description:
         "This ends up on summary pages, on Google, when people share your post in social media.",
-    },
-    {
-      name: "authors",
-      title: "Authors",
-      type: "array",
-      of: [
-        {
-          type: "authorReference",
-        },
-      ],
     },
     {
       name: "categories",
@@ -107,13 +97,13 @@ export default {
       media: "mainImage",
     },
     prepare({ title = "No title", publishedAt, slug = {}, media }) {
-      const dateSegment = format(new Date(publishedAt), "yyyy/MM");
-      const path = `/${dateSegment}/${slug.current}/`;
+      const dateSegment = format(new Date(publishedAt), "yyyy/MM")
+      const path = `/${dateSegment}/${slug.current}/`
       return {
         title,
         media,
         subtitle: publishedAt ? path : "Missing publishing date",
-      };
+      }
     },
   },
-};
+}
