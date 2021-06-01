@@ -147,7 +147,7 @@ export const Nav = () => {
             {navOptions.map((option) => (
               <li key={option}>
                 <Link
-                  to={`/${option}`}
+                  to={`/${option}/`}
                   activeStyle={{
                     paddingBottom: "5px",
                     borderBottom: "2px solid #959fb1",
