@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "styled-components"
 import { graphql, Link, useStaticQuery } from "gatsby"
-import { useWindowWidth } from "../functions/useWindowWidth"
 
 const NavContainer = styled.nav`
   display: flex;
@@ -93,6 +92,13 @@ const NavWrapper = styled.div`
     color: inherit;
   }
 `
+const InstaExtension = styled.div`
+  display: none;
+  @media (min-width: 750px) {
+    display: flex;
+    align-items: center;
+  }
+`
 
 const navOptions = ["portfolio", "about", "news", "contact"]
 
@@ -155,19 +161,17 @@ export const Nav = () => {
               </li>
             ))}
           </InternalLinks>
-          {useWindowWidth() >= 750 && (
-            <>
-              <VerticalLine />
-              <Instagram
-                title="Visit Christine's Instagram account"
-                href={site.instagramLink}
-                target="_blank"
-                rel="noopener"
-              >
-                {instaLogo}
-              </Instagram>
-            </>
-          )}
+          <InstaExtension>
+            <VerticalLine />
+            <Instagram
+              title="Visit Christine's Instagram account"
+              href={site.instagramLink}
+              target="_blank"
+              rel="noopener"
+            >
+              {instaLogo}
+            </Instagram>
+          </InstaExtension>
         </NavOptions>
       </NavWrapper>
     </NavContainer>
