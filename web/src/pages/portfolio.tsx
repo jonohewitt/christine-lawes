@@ -20,11 +20,7 @@ export const query = graphql`
         }
         artworkImage {
           asset {
-            gatsbyImageData(
-              layout: FULL_WIDTH
-              placeholder: BLURRED
-              formats: [AUTO, WEBP, AVIF]
-            )
+            gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
             title
           }
           alt

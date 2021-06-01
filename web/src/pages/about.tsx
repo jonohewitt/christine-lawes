@@ -19,11 +19,7 @@ export const query = graphql`
       aboutPhoto {
         alt
         asset {
-          gatsbyImageData(
-            layout: FULL_WIDTH
-            placeholder: BLURRED
-            formats: [AUTO, WEBP, AVIF]
-          )
+          gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
         }
       }
     }
