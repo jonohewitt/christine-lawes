@@ -8,6 +8,13 @@ require("dotenv").config({
 const isProd = process.env.NODE_ENV === "production"
 
 const config: GatsbyConfig = {
+  flags: {
+    DEV_SSR: true,
+    FAST_DEV: true,
+    PRESERVE_WEBPACK_CACHE: true,
+    PRESERVE_FILE_DOWNLOAD_CACHE: true,
+    PARALLEL_SOURCING: true,
+  },
   plugins: [
     "gatsby-plugin-image",
     "gatsby-plugin-styled-components",
