@@ -19,7 +19,11 @@ export const query = graphql`
       aboutPhoto {
         alt
         asset {
-          gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+          gatsbyImageData(
+            layout: FULL_WIDTH
+            placeholder: BLURRED
+            formats: [AUTO, WEBP, AVIF]
+          )
         }
       }
     }
@@ -91,18 +95,17 @@ const About = ({ data, errors }) => {
             <PortableText blocks={about._rawBody} />
           </BodyStyles>
           <ImageContainer>
-            {/* <AspectRatio ratio={4 / 3}> */}
             <GatsbyImage
               image={getImage(about.aboutPhoto.asset)}
               alt={about.aboutPhoto.alt}
               style={{
+                width: "100%",
                 maxHeight: "450px",
                 maxWidth: "500px",
                 margin: "0 auto",
               }}
               imgStyle={{}}
             />
-            {/* </AspectRatio> */}
           </ImageContainer>
         </ContentContainer>
       </Main>
