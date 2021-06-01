@@ -151,14 +151,14 @@ export const PortfolioArtwork = ({
         <Prev
           aria-label="Previous artwork"
           title="Previous artwork"
-          to={`/portfolio/${prevSlug}`}
+          to={`/portfolio/${prevSlug}/`}
         >
           {arrow} Previous
         </Prev>
         <Next
           aria-label="Next artwork"
           title="Next artwork"
-          to={`/portfolio/${nextSlug}`}
+          to={`/portfolio/${nextSlug}/`}
         >
           Next {arrow}
         </Next>
@@ -213,7 +213,7 @@ export const PortfolioArtwork = ({
                   return (
                     <li key={_key}>
                       {link ? (
-                        <a href={link} target="_blank">
+                        <a href={link} target="_blank" rel="nooperner">
                           {nameAndDate}
                           {arrow}
                         </a>
@@ -237,7 +237,7 @@ export const PortfolioArtwork = ({
                   return (
                     <li key={_key}>
                       {link ? (
-                        <a href={link} target="_blank">
+                        <a href={link} target="_blank" rel="nooperner">
                           {nameAndDate}
                           {arrow}
                         </a>

@@ -75,7 +75,7 @@ async function createPortfolioPages(graphql, actions) {
   artworks
     .filter((artwork) => artwork.slug)
     .forEach(({ slug, id }, index) => {
-      const path = `/portfolio/${slug.current}`
+      const path = `/portfolio/${slug.current}/`
 
       let prevSlug: string, nextSlug: string
 

@@ -85,7 +85,7 @@ const Portfolio = ({ data }) => {
             const hotspot = artwork.artworkImage?.hotspot
             return (
               <ArtworkContainer key={artwork._id}>
-                <ArtworkCard to={`/portfolio/${slug}`}>
+                <ArtworkCard to={`/portfolio/${slug}/`}>
                   <AspectRatio ratio={1}>
                     {artwork.artworkImage && (
                       <GatsbyImage
