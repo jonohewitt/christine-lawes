@@ -23,7 +23,6 @@ const BlogPostTemplate = (props) => {
   console.log(post)
   return (
     <>
-      <p>hello! at least this is working a little bit</p>
       {errors && <SEO title="GraphQL Error" />}
       {post && (
         <SEO
