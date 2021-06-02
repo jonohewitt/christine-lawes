@@ -15,13 +15,13 @@ export default {
                   buildHookId:
                     "60953f8234e2e95a752a925c",
                   title: "Sanity Studio",
-                  name: "sanity-gatsby-blog-studio-nkiwask4",
+                  name: "christine-lawes-update",
                   apiId: "55c581cf-429e-4a23-ae3a-7b39b43a6cbf",
                 },
                 {
                   buildHookId: "60953f82b8c7ee56259a938f",
-                  title: "Blog Website",
-                  name: "sanity-gatsby-blog-web-m42jfw7a",
+                  title: "Live Website",
+                  name: "christine-lawes",
                   apiId: "5b125a7d-68b3-46af-b10f-bf3e3053cab9",
                 },
               ],
@@ -37,21 +37,21 @@ export default {
           },
           {
             title: "Frontend",
-            value: "https://sanity-gatsby-blog-web-m42jfw7a.netlify.app",
+            value: "https://christine-lawes.netlify.app",
             category: "apps",
           },
         ],
       },
     },
     { name: "project-users", layout: { height: "auto" } },
-    {
-      name: "document-list",
-      options: {
-        title: "Recent blog posts",
-        order: "_createdAt desc",
-        types: ["post"],
-      },
-      layout: { width: "medium" },
-    },
+    // {
+    //   name: "document-list",
+    //   options: {
+    //     title: "Artworks",
+    //     // order: "_createdAt desc",
+    //     types: ["artwork"],
+    //   },
+    //   layout: { width: "medium" },
+    // },
   ],
 };
