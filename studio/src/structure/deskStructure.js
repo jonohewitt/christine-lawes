@@ -72,6 +72,7 @@ export default () =>
             .id("portfolio")
             .schemaType("portfolio")
             .documentId("portfolio")
+            .title("Portfolio Selection")
         ),
       S.listItem()
         .title("Blog Posts")
