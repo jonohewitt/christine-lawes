@@ -40,11 +40,17 @@ export const query = graphql`
 `
 
 const PortfolioGrid = styled.ul`
-  margin: 50px 0;
+  margin: 50px auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+  grid-template-columns: 1fr;
   grid-row-gap: 15px;
-  grid-column-gap: 25px;
+  max-width: 420px;
+
+  @media (min-width: 660px) {
+    max-width: unset;
+    grid-column-gap: 25px;
+    grid-template-columns: repeat(3, 1fr);
+  }
 `
 const ArtworkContainer = styled.li`
   /* aspect-ratio: 1; */
@@ -65,6 +71,10 @@ const ArtworkCard = styled(Link)`
     padding: 8px;
     width: 100%;
     text-align: center;
+
+    @media (min-width: 660px) {
+      font-size: min(16px, 1.8vw);
+    }
   }
 `
 
@@ -74,8 +84,8 @@ const Portfolio = ({ data }) => {
     <>
       <SEO
         title={"Portfolio"}
-        // description={site.description}
-        // keywords={site.keywords}
+        description={data.site.description}
+        keywords={data.site.keywords}
       />
       <main>
         <PortfolioGrid aria-label="Portfolio artworks">
