@@ -172,7 +172,6 @@ export const PortfolioArtwork = ({
         }}
         aria-describedby="title screen-reader-description dimensions materials description"
       />
-
       <Header id="title">
         <Title>{title || "Untitled"}</Title>
         {dateComplete ? `, ${dateComplete.slice(0, 4)}` : null}
