@@ -1,8 +1,8 @@
 import React from "react"
 import PortableText from "./portableText"
 import { Link } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import styled from "styled-components"
+import Image from "gatsby-plugin-sanity-image"
 
 const Header = styled.h1`
   text-transform: uppercase;
@@ -91,7 +91,7 @@ const dateToString = (date: string) => {
     "Nov",
     "Dec",
   ]
-  const month = months[Number(date.slice(6, 7)) - 1]
+  const month = months[Number(date.slice(5, 7)) - 1]
   return `${month} '${year}`
 }
 
@@ -133,6 +133,45 @@ const Next = styled(Prev)`
   }
 `
 
+const ImageWrapper = styled.div<{ aspectRatio: number }>`
+  position: relative;
+  padding-top: ${(props) => 100 / props.aspectRatio}%;
+  height: 0;
+  img {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: contain;
+    object-position: 50% 50%;
+    max-height: max(55vh, 350px);
+  }
+`
+
+const ImageContainer = styled.div`
+  max-height: max(55vh, 350px);
+`
+
+interface DescriptionObject {
+  name: string
+  _key: string
+  date: string
+  link: string
+}
+
+export interface PortfolioArtwork {
+  title: string
+  _rawDescription: string
+  dateComplete: string
+  artworkDimensions: string
+  artworkImage: any
+  materialsUsed: string
+  features: DescriptionObject[]
+  exhibitions: DescriptionObject[]
+  nextSlug: string
+  prevSlug: string
+}
+
 export const PortfolioArtwork = ({
   title,
   _rawDescription,
@@ -144,113 +183,124 @@ export const PortfolioArtwork = ({
   exhibitions,
   nextSlug,
   prevSlug,
-}) => {
-  return (
-    <main>
-      <ArtworkNavigators>
-        <Prev
-          aria-label="Previous artwork"
-          title="Previous artwork"
-          to={`/portfolio/${prevSlug}/`}
-        >
-          {arrow} Previous
-        </Prev>
-        <Next
-          aria-label="Next artwork"
-          title="Next artwork"
-          to={`/portfolio/${nextSlug}/`}
-        >
-          Next {arrow}
-        </Next>
-      </ArtworkNavigators>
-      <GatsbyImage
-        image={getImage(artworkImage.asset)}
-        alt={artworkImage.alt}
-        objectFit="contain"
-        style={{
-          maxHeight: "max(55vh, 350px)",
-        }}
-        aria-describedby="title screen-reader-description dimensions materials description"
-      />
-      <Header id="title">
-        <Title>{title || "Untitled"}</Title>
-        {dateComplete ? `, ${dateComplete.slice(0, 4)}` : null}
-      </Header>
+}: PortfolioArtwork) => (
+  <main>
+    <ArtworkNavigators>
+      <Prev
+        aria-label="Previous artwork"
+        title="Previous artwork"
+        to={`/portfolio/${prevSlug}/`}
+      >
+        {arrow} Previous
+      </Prev>
+      <Next
+        aria-label="Next artwork"
+        title="Next artwork"
+        to={`/portfolio/${nextSlug}/`}
+      >
+        Next {arrow}
+      </Next>
+    </ArtworkNavigators>
+    <Image
+      {...artworkImage}
+      width={1000}
+      aria-describedby="title screen-reader-description dimensions materials description"
+      // options={{ __experimentalAspectRatio: true }}
+      style={{
+        width: "100%",
+        objectFit: "contain",
+        objectPosition: "50% 50%",
+        maxHeight: "max(55vh, 350px)",
+      }}
+    />
+    {/* <ImageContainer>
+      <ImageWrapper
+        aspectRatio={artworkImage.asset.metadata.dimensions.aspectRatio}
+      >
+        <Image
+          {...artworkImage}
+          width={1000}
+          aria-describedby="title screen-reader-description dimensions materials description"
+        />
+      </ImageWrapper>
+    </ImageContainer> */}
 
-      {(artworkDimensions || materialsUsed) && (
-        <Metadata>
-          {artworkImage.description && (
-            <p id="screen-reader-description" className="screen-reader-only">
-              {artworkImage.description}
-            </p>
-          )}
-          {artworkDimensions && (
-            <Dimensions id="dimensions">{artworkDimensions}</Dimensions>
-          )}
-          {materialsUsed && (
-            <Materials id="materials">{materialsUsed}</Materials>
-          )}
-          {_rawDescription && <Divider />}
-        </Metadata>
-      )}
+    <Header id="title">
+      <Title>{title || "Untitled"}</Title>
+      {!!dateComplete && `, ${dateComplete.slice(0, 4)}`}
+    </Header>
 
-      {(_rawDescription || exhibitions || features) && (
-        <Description id="description">
-          {_rawDescription && (
-            <DescriptionBody>
-              <PortableText blocks={_rawDescription} />
-            </DescriptionBody>
-          )}
-          {exhibitions.length ? (
-            <Exhibitions>
-              <h3>Exhibited At</h3>
-              <ul>
-                {exhibitions.map(({ name, date, link, _key }) => {
-                  const nameAndDate = `${name}${
-                    date ? `, ${dateToString(date)}` : null
-                  }`
-                  return (
-                    <li key={_key}>
-                      {link ? (
-                        <a href={link} target="_blank" rel="nooperner">
-                          {nameAndDate}
-                          {arrow}
-                        </a>
-                      ) : (
-                        nameAndDate
-                      )}
-                    </li>
-                  )
-                })}
-              </ul>
-            </Exhibitions>
-          ) : null}
-          {features.length ? (
-            <Features>
-              <h3>Featured In</h3>
-              <ul>
-                {features.map(({ name, date, link, _key }) => {
-                  const nameAndDate = `${name}${
-                    date ? `, ${dateToString(date)}` : null
-                  }`
-                  return (
-                    <li key={_key}>
-                      {link ? (
-                        <a href={link} target="_blank" rel="nooperner">
-                          {nameAndDate}
-                          {arrow}
-                        </a>
-                      ) : (
-                        nameAndDate
-                      )}
-                    </li>
-                  )
-                })}
-              </ul>
-            </Features>
-          ) : null}
-        </Description>
-      )}
-    </main>
-  )
-}
+    {(artworkDimensions || materialsUsed) && (
+      <Metadata>
+        {artworkImage.description && (
+          <p id="screen-reader-description" className="screen-reader-only">
+            {artworkImage.description}
+          </p>
+        )}
+        {artworkDimensions && (
+          <Dimensions id="dimensions">{artworkDimensions}</Dimensions>
+        )}
+        {materialsUsed && <Materials id="materials">{materialsUsed}</Materials>}
+        {_rawDescription && <Divider />}
+      </Metadata>
+    )}
+
+    {(_rawDescription || exhibitions || features) && (
+      <Description id="description">
+        {_rawDescription && (
+          <DescriptionBody>
+            <PortableText blocks={_rawDescription} />
+          </DescriptionBody>
+        )}
+        {exhibitions.length > 0 && (
+          <Exhibitions>
+            <h3>Exhibited At</h3>
+            <ul>
+              {exhibitions.map(({ name, date, link, _key }) => {
+                const nameAndDate = date
+                  ? `${name}, ${dateToString(date)}`
+                  : name
+                return (
+                  <li key={_key}>
+                    {link ? (
+                      <a href={link} target="_blank" rel="noopener">
+                        {nameAndDate}
+                        {arrow}
+                      </a>
+                    ) : (
+                      nameAndDate
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+          </Exhibitions>
+        )}
+        {features.length > 0 && (
+          <Features>
+            <h3>Featured In</h3>
+            <ul>
+              {features.map(({ name, date, link, _key }) => {
+                const nameAndDate = `${name}${
+                  date ? `, ${dateToString(date)}` : null
+                }`
+                return (
+                  <li key={_key}>
+                    {link ? (
+                      <a href={link} target="_blank" rel="noopener">
+                        {nameAndDate}
+                        {arrow}
+                      </a>
+                    ) : (
+                      nameAndDate
+                    )}
+                  </li>
+                )
+              })}
+            </ul>
+          </Features>
+        )}
+      </Description>
+    )}
+  </main>
+)

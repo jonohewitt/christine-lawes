@@ -29,9 +29,13 @@ export const query = graphql`
         link
       }
       artworkImage {
+        ...ImageWithPreview
         asset {
-          _rawMetadata
-          gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+          metadata {
+            dimensions {
+              aspectRatio
+            }
+          }
         }
         alt
         description

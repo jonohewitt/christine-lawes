@@ -4,6 +4,7 @@ import { graphql, Link } from "gatsby"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import SEO from "../components/seo"
 import AspectRatio from "../components/aspectRatio"
+import Image from "gatsby-plugin-sanity-image"
 
 export const query = graphql`
   query PortfolioPageQuery {
@@ -19,6 +20,7 @@ export const query = graphql`
           current
         }
         artworkImage {
+          ...ImageWithPreview
           asset {
             gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
             title
@@ -92,26 +94,37 @@ const Portfolio = ({ data }) => {
           {artworks.map((artwork) => {
             const title = artwork.title || "untitled"
             const slug = artwork.slug.current
-            const hotspot = artwork.artworkImage?.hotspot
+
             return (
               <ArtworkContainer key={artwork._id}>
                 <ArtworkCard to={`/portfolio/${slug}/`}>
                   <AspectRatio ratio={1}>
                     {artwork.artworkImage && (
-                      <GatsbyImage
-                        image={getImage(artwork.artworkImage.asset)}
-                        alt={artwork.artworkImage.alt}
+                      <Image
+                        {...artwork.artworkImage}
+                        width={450}
+                        height={450}
                         style={{
+                          width: "100%",
                           height: "100%",
+                          objectFit: "cover",
                         }}
-                        imgStyle={
-                          hotspot && {
-                            objectPosition: `${hotspot.x * 100}% ${
-                              hotspot.y * 100
-                            }%`,
-                          }
-                        }
                       />
+
+                      // <GatsbyImage
+                      //   image={getImage(artwork.artworkImage.asset)}
+                      //   alt={artwork.artworkImage.alt}
+                      //   style={{
+                      //     height: "100%",
+                      //   }}
+                      //   imgStyle={
+                      //     hotspot && {
+                      //       objectPosition: `${hotspot.x * 100}% ${
+                      //         hotspot.y * 100
+                      //       }%`,
+                      //     }
+                      //   }
+                      // />
                     )}
                   </AspectRatio>
                   <p>{title}</p>
