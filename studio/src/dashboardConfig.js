@@ -37,7 +37,7 @@ export default {
           },
           {
             title: "Frontend",
-            value: "https://christine-lawes.netlify.app",
+            value: "https://christinelawes.com",
             category: "apps",
           },
         ],
