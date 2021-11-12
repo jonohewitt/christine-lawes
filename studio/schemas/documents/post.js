@@ -16,7 +16,7 @@ export default {
       type: "slug",
       title: "Slug",
       description:
-        "Some frontends will require a slug to be set to be able to show the post",
+        "Click the 'Generate' button to create a 'slug' automatically. This is the end part of the website address, e.g /blog-title-goes-here",
       options: {
         source: "title",
         maxLength: 96,
@@ -96,8 +96,15 @@ export default {
       slug: "slug",
       media: "mainImage",
     },
-    prepare({ title = "No title", publishedAt, slug = {}, media }) {
-      const dateSegment = format(new Date(publishedAt), "yyyy/MM")
+    prepare({
+      title = "No title",
+      publishedAt,
+      slug = { current: "untitled" },
+      media,
+    }) {
+      const dateSegment = publishedAt
+        ? format(new Date(publishedAt), "yyyy/MM")
+        : "unpublished"
       const path = `/${dateSegment}/${slug.current}/`
       return {
         title,
