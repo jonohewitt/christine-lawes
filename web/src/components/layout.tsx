@@ -5,6 +5,10 @@ import { Nav } from "./nav"
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  img:-moz-loading {
+  visibility: hidden;
+}
+
   body {
     background: #ececec;
     font-family: DM Mono, monospace;
@@ -12,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    overflow-y: scroll;
   }
   strong {
     font-weight: 700;
