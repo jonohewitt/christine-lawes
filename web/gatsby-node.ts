@@ -1,4 +1,5 @@
 import { format, isFuture } from "date-fns"
+
 import slugify from "slugify"
 
 async function createBlogPostPages(graphql, actions) {
@@ -34,7 +35,7 @@ async function createBlogPostPages(graphql, actions) {
 
       createPage({
         path,
-        component: require.resolve("../src/templates/blog-post.tsx"),
+        component: require.resolve("./src/templates/blog-post.tsx"),
         context: { id },
       })
     })
@@ -87,7 +88,7 @@ async function createPortfolioPages(graphql, actions) {
 
       createPage({
         path,
-        component: require.resolve("../src/templates/portfolio-artwork.tsx"),
+        component: require.resolve("./src/templates/portfolio-artwork.tsx"),
         context: { id, prevSlug, nextSlug },
       })
     })

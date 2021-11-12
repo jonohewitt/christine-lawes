@@ -9,11 +9,10 @@ const isProd = process.env.NODE_ENV === "production"
 
 const config: GatsbyConfig = {
   flags: {
-    DEV_SSR: true,
-    FAST_DEV: true,
-    PRESERVE_WEBPACK_CACHE: true,
-    PRESERVE_FILE_DOWNLOAD_CACHE: true,
-    PARALLEL_SOURCING: true,
+    // DEV_SSR: true,
+    // FAST_DEV: true,
+    // PRESERVE_FILE_DOWNLOAD_CACHE: true,
+    // PARALLEL_SOURCING: true,
   },
   plugins: [
     "gatsby-plugin-image",
@@ -26,6 +25,13 @@ const config: GatsbyConfig = {
         token: process.env.SANITY_READ_TOKEN,
         watchMode: !isProd,
         overlayDrafts: !isProd,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-sanity-image",
+      options: {
+        ...clientConfig.sanity,
+        customImageTypes: ["SanityArtworkImage"],
       },
     },
   ],
