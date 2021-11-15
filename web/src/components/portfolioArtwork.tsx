@@ -184,29 +184,33 @@ export const PortfolioArtwork = ({
           Next {arrow}
         </Next>
       </ArtworkNavigators>
+
       <Image
         {...artworkImage}
-        width={1000}
+        width={800}
         aria-describedby="title screen-reader-description dimensions materials description"
-        options={{ __experimentalAspectRatio: true }}
         style={{
           display: "block",
           margin: "auto",
-          width: `min(calc(max(60vh, 350px) * ${aspectRatio}), min(800px, 90vw - var(--scrollbar-width)))`,
-          height: `calc(min((max(60vh, 350px) * ${aspectRatio}), min(800px, 90vw - var(--scrollbar-width))) / ${aspectRatio})`,
+          width: `
+          calc(
+            min( 
+              max(60vh, 350px) * ${aspectRatio},
+              800px,
+              90vw - var(--scrollbar-width)
+            )  
+          )`,
+          height: `
+          calc( 
+            min(
+                max(60vh, 350px) * ${aspectRatio},
+                800px,
+                90vw - var(--scrollbar-width)
+            )
+            / ${aspectRatio}
+          )`,
         }}
       />
-      {/* <ImageContainer>
-      <ImageWrapper
-        aspectRatio={artworkImage.asset.metadata.dimensions.aspectRatio}
-      >
-        <Image
-          {...artworkImage}
-          width={1000}
-          aria-describedby="title screen-reader-description dimensions materials description"
-        />
-      </ImageWrapper>
-    </ImageContainer> */}
 
       <Header id="title">
         <Title>{title || "Untitled"}</Title>
