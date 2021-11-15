@@ -34,6 +34,8 @@ export const query = graphql`
           metadata {
             dimensions {
               aspectRatio
+              width
+              height
             }
           }
         }

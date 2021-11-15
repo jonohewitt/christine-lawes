@@ -133,25 +133,6 @@ const Next = styled(Prev)`
   }
 `
 
-const ImageWrapper = styled.div<{ aspectRatio: number }>`
-  position: relative;
-  padding-top: ${(props) => 100 / props.aspectRatio}%;
-  height: 0;
-  img {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    object-fit: contain;
-    object-position: 50% 50%;
-    max-height: max(55vh, 350px);
-  }
-`
-
-const ImageContainer = styled.div`
-  max-height: max(55vh, 350px);
-`
-
 interface DescriptionObject {
   name: string
   _key: string
@@ -183,37 +164,39 @@ export const PortfolioArtwork = ({
   exhibitions,
   nextSlug,
   prevSlug,
-}: PortfolioArtwork) => (
-  <main>
-    <ArtworkNavigators>
-      <Prev
-        aria-label="Previous artwork"
-        title="Previous artwork"
-        to={`/portfolio/${prevSlug}/`}
-      >
-        {arrow} Previous
-      </Prev>
-      <Next
-        aria-label="Next artwork"
-        title="Next artwork"
-        to={`/portfolio/${nextSlug}/`}
-      >
-        Next {arrow}
-      </Next>
-    </ArtworkNavigators>
-    <Image
-      {...artworkImage}
-      width={1000}
-      aria-describedby="title screen-reader-description dimensions materials description"
-      // options={{ __experimentalAspectRatio: true }}
-      style={{
-        width: "100%",
-        objectFit: "contain",
-        objectPosition: "50% 50%",
-        maxHeight: "max(55vh, 350px)",
-      }}
-    />
-    {/* <ImageContainer>
+}: PortfolioArtwork) => {
+  const aspectRatio: number = artworkImage.asset.metadata.dimensions.aspectRatio
+  return (
+    <main>
+      <ArtworkNavigators>
+        <Prev
+          aria-label="Previous artwork"
+          title="Previous artwork"
+          to={`/portfolio/${prevSlug}/`}
+        >
+          {arrow} Previous
+        </Prev>
+        <Next
+          aria-label="Next artwork"
+          title="Next artwork"
+          to={`/portfolio/${nextSlug}/`}
+        >
+          Next {arrow}
+        </Next>
+      </ArtworkNavigators>
+      <Image
+        {...artworkImage}
+        width={1000}
+        aria-describedby="title screen-reader-description dimensions materials description"
+        options={{ __experimentalAspectRatio: true }}
+        style={{
+          display: "block",
+          margin: "auto",
+          width: `min(calc(max(60vh, 350px) * ${aspectRatio}), min(800px, 90vw - var(--scrollbar-width)))`,
+          height: `calc(min((max(60vh, 350px) * ${aspectRatio}), min(800px, 90vw - var(--scrollbar-width))) / ${aspectRatio})`,
+        }}
+      />
+      {/* <ImageContainer>
       <ImageWrapper
         aspectRatio={artworkImage.asset.metadata.dimensions.aspectRatio}
       >
@@ -225,82 +208,85 @@ export const PortfolioArtwork = ({
       </ImageWrapper>
     </ImageContainer> */}
 
-    <Header id="title">
-      <Title>{title || "Untitled"}</Title>
-      {!!dateComplete && `, ${dateComplete.slice(0, 4)}`}
-    </Header>
+      <Header id="title">
+        <Title>{title || "Untitled"}</Title>
+        {!!dateComplete && `, ${dateComplete.slice(0, 4)}`}
+      </Header>
 
-    {(artworkDimensions || materialsUsed) && (
-      <Metadata>
-        {artworkImage.description && (
-          <p id="screen-reader-description" className="screen-reader-only">
-            {artworkImage.description}
-          </p>
-        )}
-        {artworkDimensions && (
-          <Dimensions id="dimensions">{artworkDimensions}</Dimensions>
-        )}
-        {materialsUsed && <Materials id="materials">{materialsUsed}</Materials>}
-        {_rawDescription && <Divider />}
-      </Metadata>
-    )}
+      {(artworkDimensions || materialsUsed) && (
+        <Metadata>
+          {artworkImage.description && (
+            <p id="screen-reader-description" className="screen-reader-only">
+              {artworkImage.description}
+            </p>
+          )}
+          {artworkDimensions && (
+            <Dimensions id="dimensions">{artworkDimensions}</Dimensions>
+          )}
+          {materialsUsed && (
+            <Materials id="materials">{materialsUsed}</Materials>
+          )}
+          {_rawDescription && <Divider />}
+        </Metadata>
+      )}
 
-    {(_rawDescription || exhibitions || features) && (
-      <Description id="description">
-        {_rawDescription && (
-          <DescriptionBody>
-            <PortableText blocks={_rawDescription} />
-          </DescriptionBody>
-        )}
-        {exhibitions.length > 0 && (
-          <Exhibitions>
-            <h3>Exhibited At</h3>
-            <ul>
-              {exhibitions.map(({ name, date, link, _key }) => {
-                const nameAndDate = date
-                  ? `${name}, ${dateToString(date)}`
-                  : name
-                return (
-                  <li key={_key}>
-                    {link ? (
-                      <a href={link} target="_blank" rel="noopener">
-                        {nameAndDate}
-                        {arrow}
-                      </a>
-                    ) : (
-                      nameAndDate
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </Exhibitions>
-        )}
-        {features.length > 0 && (
-          <Features>
-            <h3>Featured In</h3>
-            <ul>
-              {features.map(({ name, date, link, _key }) => {
-                const nameAndDate = `${name}${
-                  date ? `, ${dateToString(date)}` : null
-                }`
-                return (
-                  <li key={_key}>
-                    {link ? (
-                      <a href={link} target="_blank" rel="noopener">
-                        {nameAndDate}
-                        {arrow}
-                      </a>
-                    ) : (
-                      nameAndDate
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
-          </Features>
-        )}
-      </Description>
-    )}
-  </main>
-)
+      {(_rawDescription || exhibitions || features) && (
+        <Description id="description">
+          {_rawDescription && (
+            <DescriptionBody>
+              <PortableText blocks={_rawDescription} />
+            </DescriptionBody>
+          )}
+          {exhibitions.length > 0 && (
+            <Exhibitions>
+              <h3>Exhibited At</h3>
+              <ul>
+                {exhibitions.map(({ name, date, link, _key }) => {
+                  const nameAndDate = date
+                    ? `${name}, ${dateToString(date)}`
+                    : name
+                  return (
+                    <li key={_key}>
+                      {link ? (
+                        <a href={link} target="_blank" rel="noopener">
+                          {nameAndDate}
+                          {arrow}
+                        </a>
+                      ) : (
+                        nameAndDate
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </Exhibitions>
+          )}
+          {features.length > 0 && (
+            <Features>
+              <h3>Featured In</h3>
+              <ul>
+                {features.map(({ name, date, link, _key }) => {
+                  const nameAndDate = `${name}${
+                    date ? `, ${dateToString(date)}` : null
+                  }`
+                  return (
+                    <li key={_key}>
+                      {link ? (
+                        <a href={link} target="_blank" rel="noopener">
+                          {nameAndDate}
+                          {arrow}
+                        </a>
+                      ) : (
+                        nameAndDate
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </Features>
+          )}
+        </Description>
+      )}
+    </main>
+  )
+}
