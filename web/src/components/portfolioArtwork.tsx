@@ -1,8 +1,8 @@
-import React from "react"
+import React, { KeyboardEventHandler, useEffect } from "react"
 import PortableText from "./portableText"
-import { Link } from "gatsby"
+import { Link, navigate } from "gatsby"
 import styled from "styled-components"
-import Image from "gatsby-plugin-sanity-image"
+import SanityImage from "gatsby-plugin-sanity-image"
 
 const Header = styled.h1`
   text-transform: uppercase;
@@ -133,6 +133,25 @@ const Next = styled(Prev)`
   }
 `
 
+const Image = styled(SanityImage)<{ $aspectRatio: number }>`
+  display: block;
+  margin: auto;
+  width: calc(
+    min(
+      max(60vh, 350px) * ${(props) => props.$aspectRatio},
+      800px,
+      90vw - var(--scrollbar-width)
+    )
+  );
+  height: calc(
+    min(
+        max(60vh, 350px) * ${(props) => props.$aspectRatio},
+        800px,
+        90vw - var(--scrollbar-width)
+      ) / ${(props) => props.$aspectRatio}
+  );
+`
+
 interface DescriptionObject {
   name: string
   _key: string
@@ -166,6 +185,17 @@ export const PortfolioArtwork = ({
   prevSlug,
 }: PortfolioArtwork) => {
   const aspectRatio: number = artworkImage.asset.metadata.dimensions.aspectRatio
+
+  const handleKeyUp = (e: KeyboardEvent) => {
+    if (e.key === "ArrowLeft") navigate(`/portfolio/${prevSlug}/`)
+    else if (e.key === "ArrowRight") navigate(`/portfolio/${nextSlug}/`)
+  }
+  useEffect(() => {
+    window.addEventListener("keyup", handleKeyUp)
+    return () => {
+      window.removeEventListener("keyup", handleKeyUp)
+    }
+  }, [])
   return (
     <main>
       <ArtworkNavigators>
@@ -187,29 +217,9 @@ export const PortfolioArtwork = ({
 
       <Image
         {...artworkImage}
+        $aspectRatio={aspectRatio}
         width={800}
         aria-describedby="title screen-reader-description dimensions materials description"
-        style={{
-          display: "block",
-          margin: "auto",
-          width: `
-          calc(
-            min( 
-              max(60vh, 350px) * ${aspectRatio},
-              800px,
-              90vw - var(--scrollbar-width)
-            )  
-          )`,
-          height: `
-          calc( 
-            min(
-                max(60vh, 350px) * ${aspectRatio},
-                800px,
-                90vw - var(--scrollbar-width)
-            )
-            / ${aspectRatio}
-          )`,
-        }}
       />
 
       <Header id="title">
